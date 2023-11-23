@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+   matomo:
+     image: matomo:latest
+     container_name: matomo
+     ports:
+       - "8080:80"
+     environment:
+       - MATOMO_DATABASE_HOST=db
+       - MATOMO_DATABASE_ADAPTER=mysql
+       - MATOMO_DATABASE_DBNAME=matomo
+       - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+       - MATOMO_DATABASE_USER=matomo
+       - MATOMO_DATABASE_PASSWORD=your_password
+     volumes:
+      - matomo-data:/var/www/html
+   db:
+     image: mysql:latest
+     container_name: matomo-db
+     environment:
+       - MYSQL_ROOT_PASSWORD=root_password
+       - MYSQL_DATABASE=matomo
+       - MYSQL_USER=matomo
+       - MYSQL_PASSWORD=your_password
+     volumes:
+       - db-data:/var/lib/mysql
+
+volumes:
+  matomo-data:
+  db-data:
